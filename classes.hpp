@@ -32,6 +32,27 @@ class InventoryManager {
     private:
     std::unordered_map<std::string, std::shared_ptr<Product>> products;
 
+    public:
+    bool add_product(const std::string &name, const std::string &barcode,
+        int stock_quantity, double price, bool on_offer=false, int discount=0) {
+        if (products.find(name) != products.end()) {
+            std::cout << "❌ Error: Product '" << name << "' already exists!\n";
+            return false;
+        }
+
+        products[name] = std::make_shared<Product>(name, barcode, price,
+            stock_quantity, on_offer, discount);
+            std::cout << "✅ Product '" << name << "' added successfully!\n";
+            return true;
+
+    }
+
+    void display_all_products() const {
+        std::cout << "\n📦 Inventory List:\n";
+        for (const auto &pair : products) {
+            pair.second->display_product_details();
+        }
+    }
 };
 
 #endif
